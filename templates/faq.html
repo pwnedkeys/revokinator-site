@@ -46,7 +46,7 @@ Pull requests implementing bug fixes and new features will be considered on a ca
 </p>
 <h1>Can I get direct access to the Revokinator database to do my own research?</h1>
 <p>
-Direct access to the production Revokinator database is unlikely to happen, simply because running arbitrary queries on the database is likely to end badly.
+Direct access to the production Revokinator database is unlikely to happen, simply because running arbitrary queries on the database is likely to end badly, given the resource constraints that Pwnedkeys operates under.
 However, if you are a security researcher who would like access to the Revokinator data for your own purposes, it may be possible for you to get a replication slot to feed your own replica.
 Please <a href="mailto:revokinator@pwnedkeys.com">email us</a> to discuss how that might be arranged.
 </p>
@@ -59,10 +59,16 @@ If you are a security researcher and would like to use the Revokinator system to
 <h1>Why doesn't the Revokinator use ACME to report compromised keys?</h1>
 <p>
 The ACME (Automated Certificate Management Environment) protocol provides a way for compromised keys to be reported, however it requires the private key itself to be available at the moment the notification is sent.
-For security reasons, private keys are not stored online, and as such are not available to the Revokinator to use to "live report" compromised keys.
-Similarly, CA-specific compromise attestation formats are not supported.
+Pwnedkeys (including the Revokinator) does not store private key material online, because a centralised database of millions of private keys would be like catnip for attackers.
+Remember that these keys are for live, real-world certificates, some for significant domains.                                                                                                                                                  The Pwnedkeys dataset includes keys for certificates such as <tt>*.gov.&lt;ccTLD&gt;</tt>, which I think we can all agree is not one we'd like every attacker on the planet to have trivial access to.
 </p>
 <p>
-If an ACME endpoint is standardised in the future, to accept pre-generated compromise attestation formats, the Revokinator may be augmented to support such an endpoint.
+Instead, when a private key is ingested by the Pwnedkeys system, a "compromise attestation" is generated using the compromised key, and then the key itself is encrypted and stored offline, in a deliberately not-trivial-to-access manner.
+This compromise attestation is a document, signed by the key itself, which asserts that the key is compromised.
+The signature allows anyone who has the public portion of the key to verify that Pwnedkeys does, indeed, have access to the associated private key.
+This approach is a standard, secure, reliable way of demonstrating control of a private key.
+</p>
+<p>
+If an ACME endpoint is standardised in the future to accept pre-generated compromise attestation formats, such as an accepted version of <a href="https://datatracker.ietf.org/doc/draft-mpalmer-key-compromise-attestation/"><tt>draft-mpalmer-key-compromise-attestation</tt></a>, the Revokinator may be augmented to support such an endpoint.
 </p>
 {% endblock content %}
