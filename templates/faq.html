@@ -1,0 +1,68 @@
+{% extends "default.html" %}
+{% block headtitle %}The Pwnedkeys Revokinator FAQ{% endblock headtitle %}
+{% block pagetitle %}The Pwnedkeys Revokinator FAQ{% endblock pagetitle %}
+{% block content %}
+<p>
+Everything you never wanted to know about the Pwnedkeys Revokinator.
+</p>
+<h1>How does the Pwnedkeys Revokinator Work?</h1>
+<p>
+The Revokinator starts by scraping all known WebPKI certificates from <a href="https://certificate.transparency.dev">Certificate Transparency logs</a> and creating an index of the key they use.
+When new private keys are found to be compromised, they are checked against the index of certificates, and if any certificates are found using that key, the issuer(s) of those certificates are notified that the key is compromised.
+</p>
+<p>
+This automatic process only catches cases where the key is found to be compromised after the certificate has been issued.
+The Revokinator does not currently have the capacity to check every certificate as it is scraped against the entire dataset of known-compromised keys (sponsorships welcome!).
+To find certificates which were issued to previously-compromised keys, a manual job is run now and then, which checks all existing keys against all indexed certificates.
+works by matching the <a href="https://pwnedkeys.com">Pwnedkeys dataset of compromised private keys</a> against all known WebPKI certificates, and notifying Certificate Authorities of the compromised keys.
+</p>
+<p>
+Every certificate which is found to use a compromised key is recorded as a "revocation candidate".
+A revocation candidate whose key has not previously been reported as compromised to the certificate's issuer produces a "revocation request".
+This request is sent to the issuer, providing details of the certificate involved and a cryptographic attestation that the key is compromised.
+Every attempt to deliver a revocation request is recorded, to detect problems with a CA's problem reporting infrastructure.
+</p>
+<p>
+Once a revocation request has been successfully delivered, all certificates related to that request are checked against the OCSP server which handles that certificate.
+These OCSP checks are repeated periodically, and the details about each are recorded.
+From this, it is possible to determine how long it took the CA to revoke each certificate, and hence whether the CA is in compliance with the relevant requirements for WebPKI CAs.
+</p>
+<h1>How are compromised keys reported?</h1>
+<p>
+By default, problem reports are sent to CAs via email to problem reporting addresses listed in the CA's CPS (Certification Practice Statement).
+A single problem report per compromised key is sent, when that key has been identified as being associated with one or more certificates issued by that CA.
+</p>
+<p>
+Problem reports can also be sent as an HTTP POST of a compromise attestation document, if a URL is specified in a CA's CPS, and that it accepts any compromise attestation format available via the Pwnedkeys API.
+Contact <a href="mailto:revokinator@pwnedkeys.com"><tt>revokinator@pwnedkeys.com</tt></a> to notify us that your CPS has been amended appropriately.
+</p>
+<h1>The Revokinator site doesn't show me something I want to see!</h1>
+<p>
+Technically, that's not a question, but I'll allow it.
+</p>
+<p>
+The source code for the Revokinator's public information site is <a href="https://github.com/pwnedkeys/revokinator-site">publicly available</a>.
+Pull requests implementing bug fixes and new features will be considered on a case-by-case basis, bearing in mind that the Revokinator does not have a huge amount of spare capacity, so changes that require significant resources to execute may not be suitable.
+</p>
+<h1>Can I get direct access to the Revokinator database to do my own research?</h1>
+<p>
+Direct access to the production Revokinator database is unlikely to happen, simply because running arbitrary queries on the database is likely to end badly.
+However, if you are a security researcher who would like access to the Revokinator data for your own purposes, it may be possible for you to get a replication slot to feed your own replica.
+Please <a href="mailto:revokinator@pwnedkeys.com">email us</a> to discuss how that might be arranged.
+</p>
+<h1>Can I track my own revocation requests with the Revokinator?</h1>
+<p>
+At present, there is no ability to track revocation requests not related to a compromised key known to Pwnedkeys.
+However, there is no fundamental reason why this <em>couldn't</em> be done, it's just that it hasn't been implemented.
+If you are a security researcher and would like to use the Revokinator system to track your revocation requests, including OCSP response history, please <a href="mailto:revokinator@pwnedkeys.com">email us</a> to discuss how we can work together.
+</p>
+<h1>Why doesn't the Revokinator use ACME to report compromised keys?</h1>
+<p>
+The ACME (Automated Certificate Management Environment) protocol provides a way for compromised keys to be reported, however it requires the private key itself to be available at the moment the notification is sent.
+For security reasons, private keys are not stored online, and as such are not available to the Revokinator to use to "live report" compromised keys.
+Similarly, CA-specific compromise attestation formats are not supported.
+</p>
+<p>
+If an ACME endpoint is standardised in the future, to accept pre-generated compromise attestation formats, the Revokinator may be augmented to support such an endpoint.
+</p>
+{% endblock content %}

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	{% block head %}
+	<title>{% block headtitle %}The Pwnedkeys Revokinator{% endblock headtitle %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="Utter Madness v1.0">
+	<link type="text/css" rel="stylesheet" href="{{ components.css_url }}">
+	{% endblock head %}
+</head>
+
+<body>
+<div id="foreground">
+ <div id="header">
+	 <h1 class="page_title">{% block pagetitle %}{% endblock pagetitle %}</h1>
+  <p class="page_title">
+  {% block subtitle %}{% endblock subtitle %}
+  </p>
+  <div id="navbar">
+	  <input type="checkbox" class="display-toggle" id="menu-visible">
+	  <label for="menu-visible">Nav</label>
+	  <label for="menu-visible" class="modal-background"></label>
+	  <ul>
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/tools">Pwnedkeys Tools</a></li>
+		  <li><a href="/revokinator/faq">Revokinator FAQ</a></li>
+	  </ul>
+  </div>
+ </div>
+ <div id="content_wrapper">
+  <div id="content">
+   <!-- BEGIN:content -->
+   {% block content %}{% endblock content %}
+   <!-- END:content -->
+  </div>
+ </div>
+</div>
+</body>
+</html>

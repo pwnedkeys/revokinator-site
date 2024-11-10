@@ -1,0 +1,46 @@
+allowed-duplicate-crates = [
+	# Next release of actix-http should fix this
+	"base64",
+	# Next release of tera should fix this
+	"bitflags",
+	# indexmap@1 is used by serde-yaml, which is abandoned without a suitable replacement,
+	# hashbrown@0.12 is a dep of indexmap@1
+	"indexmap",
+	"hashbrown",
+	# looks like a transition is slowly in progress
+	"http",
+	"h2",
+	# a new release of selectors (> 0.25) would fix these
+	"phf",
+	"phf_shared",
+	# hickory-dns ecosystem is hella slow
+	"heck",
+	"idna",
+	"ring",
+	"rustls",
+	"rustls-pemfile",
+	"rustls-webpki",
+	"tokio-rustls",
+	"untrusted",
+	# tracing is holding back progress
+	"nu-ansi-term",
+	"regex-automata",
+	# Dammit regex_static... https://github.com/bbqsrc/regex-static/pull/2
+	"regex-syntax",
+	# Everyone uses lazy_static, but it's abandoned and probably never going to get updates,
+	# so it's stuck on this ancient version of spin
+	"spin",
+	# Everything has disparate versions of this
+	"syn",
+	# And these I do not, and will never, care about
+	"windows-sys",
+	"windows-targets",
+	"windows_aarch64_gnullvm",
+	"windows_aarch64_msvc",
+	"windows_i686_gnu",
+	"windows_i686_msvc",
+	"windows_x86_64_gnu",
+	"windows_x86_64_gnullvm",
+	"windows_x86_64_msvc",
+	"winreg",
+]

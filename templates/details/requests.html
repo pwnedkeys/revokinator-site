@@ -1,0 +1,16 @@
+{% extends "default.html" %}
+{% block content %}
+<p>
+Every notification sent (or attempted to be sent) to a CA, of a compromised key used by a certificate issued by that CA.
+</p>
+<table class="bordered">
+	<tr><th>Sent At</th><th>Sent To</th><th>Accepted?</th></tr>
+	{% for r in requests %}
+	<tr>
+		<td>{{ r.sent_at }}</td>
+		<td>{{ r.sent_to }}</td>
+		<td>{{ r.accepted }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock content %}

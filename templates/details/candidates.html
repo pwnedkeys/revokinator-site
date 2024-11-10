@@ -1,0 +1,18 @@
+{% extends "default.html" %}
+{% block content %}
+<p>
+These are all of the certificates which are known to use a compromised key.
+</p>
+<table class="bordered">
+	<tr><th>Subject</th><th>Issuer</th><th>Expiry</th><th>Notified?</th></tr>
+	{% for c in candidates %}
+	<tr>
+		<td>{{ c.subject }}</td>
+		<td>{{ c.issuer }}</td>
+		<td>{{ c.expiry }}</td>
+		<td>{{ c.notified_at }}</td>
+		<td>{{ c.cert_display_link|safe }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock content %}

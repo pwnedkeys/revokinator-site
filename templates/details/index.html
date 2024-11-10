@@ -1,0 +1,17 @@
+{% extends "default.html" %}
+{% block content %}
+<p>
+The Revokinator is currently tracking {{ request_count }} revocation requests for {{ candidate_count }} compromised, unexpired certificates.
+</p>
+<p>
+For more details, you may be interested in:
+</p>
+<ul>
+	<li><a href="details/candidates">Revocation Candidates</a> -- unexpired certificates which have been identified as using a private key which is known to be compromised.</li>
+	<li><a href="details/requests">Revocation Requests</a> -- contacts made (or attempted) with the issuers of certificates which use a known-compromised private key.</li>
+</ul>
+<p>
+If you would like to see more details in here, the Revokinator site source code is <a href="https://github.com/pwnedkeys/revokinator-site">publicly available</a>, feel free to submit a PR.
+You'll probably want to consult <a href="/revokinator/db-schema">the fully-documented <tt>revokinator</tt> database schema</a>.
+</p>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "default.html" %}
+{% block headtitle %}The Pwnedkeys Revokinator: the WebPKI's Immune System{% endblock headtitle %}
+{% block pagetitle %}The Pwnedkeys Revokinator{% endblock pagetitle %}
+{% block subtitle %}the WebPKI's Immune System{% endblock subtitle %}
+{% block content %}
+<p>
+The Pwnedkeys Revokinator is an automated system that revokes compromised and invalid TLS certificates, and keeps track of revocation requests to ensure that they are processed in a timely manner.
+Currently, revocations are triggered when a certificate is identified as having a compromised private key, from the Pwnedkeys dataset.
+</p>
+<p>
+To keep up-to-date with the latest and greatest in compromised keys, <a href="/newsletter/subscribe">subscribe to the Pwnedkeys newsletter</a>.
+</p>
+<p>
+If you have questions or comments, feel free to check out <a href="/revokinator/faq">the Revokinator FAQ</a>
+or <a href="mailto:revokinator@pwnedkeys.com">contact us</a>.
+</p>
+<h1>Scoreboard</h1>
+<p>
+The Revokinator is currently tracking {{ request_count }} revocation requests for {{ candidate_count }} compromised, unexpired certificates.
+</p>
+<p>
+You might be interested in <a href="/revokinator/details">all the gory details</a>.
+</p>
+{% endblock content %}
